@@ -9,8 +9,10 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - **React Compiler**: The project has React Compiler enabled. Avoid manual `useMemo` or `useCallback` unless specifically requested for stable object references.
 
 ## State & Data Fetching
-- **Server Actions**: Use Next.js Server Actions for all database mutations (Saving to favorites, updating notes).
-- **API Routes**: Create Route Handlers in `src/app/api/` for proxying RAWG API requests to hide the API key from the client.
+- **Server Components (public data)**: Use `createServerSupabase()` from `src/lib/supabase-server.ts` to read public tables (`lists`, `list_items`, `list_likes`) without auth.
+- **Client Components (mutations)**: Use `useSupabaseClient()` from `src/lib/supabase.ts` for authenticated Supabase writes (likes). It injects the Clerk JWT automatically.
+- **Route Handlers**: Use for authenticated mutations requiring Clerk's `auth()` server helper (e.g., adding/updating/removing list items). Located in `src/app/api/lists/`.
+- **API Routes**: RAWG API requests must go through `/api/games` to protect the API key.
 
 ## Styling
 - **Tailwind CSS**: Use Tailwind for all styling.

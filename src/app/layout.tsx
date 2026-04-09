@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Link from "next/link";
 import { ClerkProvider, SignInButton, SignUpButton, UserButton, Show } from "@clerk/nextjs";
 import "./globals.css";
 
@@ -31,10 +32,14 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-zinc-950 text-slate-100">
         <ClerkProvider>
           <header className="bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-center justify-between">
-            <span className="text-xl font-bold text-white tracking-widest uppercase">
+            <Link href="/" className="text-xl font-bold text-white tracking-widest uppercase hover:text-cyan-400 transition-colors">
               Game Hub
-            </span>
-            <nav className="flex items-center gap-3">
+            </Link>
+            <nav className="flex items-center gap-4">
+              <Show when="signed-in">
+                <Link href="/my-lists" className="text-sm text-zinc-400 hover:text-white transition-colors">My Lists</Link>
+                <Link href="/bookmarks" className="text-sm text-zinc-400 hover:text-white transition-colors">Bookmarks</Link>
+              </Show>
               <Show when="signed-out">
                 <SignInButton>
                   <button className="px-4 py-2 rounded-md bg-slate-800 text-slate-200 border border-slate-700 hover:border-cyan-500 hover:text-cyan-400 transition-colors text-sm font-medium cursor-pointer">
