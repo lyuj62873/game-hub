@@ -11,11 +11,17 @@ export function TestInsertButton() {
   const [message, setMessage] = useState('')
 
   async function handleTest() {
+    if (!user) {
+      setStatus('error')
+      setMessage('You must be signed in first.')
+      return
+    }
+
     setStatus('loading')
     setMessage('')
 
     const { data, error } = await supabase.from('favorites').insert({
-      user_id: user!.id,
+      user_id: user.id,
       game_name: 'The Legend of Zelda: Breath of the Wild',
       rawg_id: 12020,
       background_image: 'https://media.rawg.io/media/games/cc3/cc3de4f3d7ea28fd4a03a7be6e5b88f4.jpg',
